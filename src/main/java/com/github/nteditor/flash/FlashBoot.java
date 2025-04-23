@@ -5,7 +5,7 @@ import java.io.File;
 import javafx.stage.FileChooser;
 
 public class FlashBoot {
-    public void fileChooser() {
+    public File fileChooser() {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.getExtensionFilters().addAll(
@@ -13,13 +13,15 @@ public class FlashBoot {
             new FileChooser.ExtensionFilter("BIN Образ", "*.bin"),
             new FileChooser.ExtensionFilter("Все Файлы", "*.*"));
 
-        File selectedFile = fileChooser.showOpenDialog(null);
-        System.out.println(selectedFile);
+        return fileChooser.showOpenDialog(null);
     }
 
-    
+    private boolean isCanceled(File imgPath) {
+        if (imgPath == null) return true;
+        return false;
+    }
 
     public void flash() {
-        
+        System.out.println(isCanceled(fileChooser()));
     }
 }

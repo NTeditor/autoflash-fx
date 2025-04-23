@@ -38,7 +38,7 @@ public class Home {
 
     @FXML
     void flashBoot(ActionEvent event) {
-        new FlashBoot().fileChooser();
+        new FlashBoot().flash();
     }
 
     @FXML
