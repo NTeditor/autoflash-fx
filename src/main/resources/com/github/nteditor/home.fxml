@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21.0.7" fx:controller="com.github.nteditor.Home">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <MenuBar maxHeight="-Infinity" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Перезагрузка">
+            <items>
+              <MenuItem fx:id="rebootS2F" mnemonicParsing="false" onAction="#rebootS2F" text="System -&gt; Fastboot" />
+                  <MenuItem fx:id="rebootS2R" mnemonicParsing="false" onAction="#rebootS2R" text="System -&gt; Recovery" />
+                  <MenuItem fx:id="rebootF2S" mnemonicParsing="false" onAction="#rebootF2S" text="Fastboot -&gt; System" />
+                  <MenuItem fx:id="rebootF2R" mnemonicParsing="false" onAction="#rebootF2R" text="Fastboot -&gt; Recovery" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Прошить">
+            <items>
+                  <MenuItem fx:id="flashBoot" mnemonicParsing="false" onAction="#flashBoot" text="Boot" />
+                  <MenuItem fx:id="flashGSI" mnemonicParsing="false" onAction="#flashGSI" text="GSI" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <content>
+            <Label text="Label">
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+               </padding>
+            </Label>
+         </content>
+      </ScrollPane>
+   </children>
+</GridPane>
