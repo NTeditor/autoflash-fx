@@ -16,4 +16,10 @@ public class FlashBoot {
         File selectedFile = fileChooser.showOpenDialog(null);
         System.out.println(selectedFile);
     }
+
+    
+
+    public void flash() {
+        
+    }
 }
