@@ -5,7 +5,7 @@ import java.io.File;
 import javafx.stage.FileChooser;
 
 public class FlashBoot {
-    public File fileChooser() {
+    private File fileChooser() {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.getExtensionFilters().addAll(
@@ -21,7 +21,7 @@ public class FlashBoot {
         return false;
     }
 
-    public void flash() {
-        System.out.println(isCanceled(fileChooser()));
+    public boolean flash() {
+        return isCanceled(fileChooser());
     }
 }
