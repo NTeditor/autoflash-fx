@@ -42,8 +42,7 @@ public class Home {
 
     @FXML
     void flashBoot(ActionEvent event) {
-        Boolean text = new FlashBoot().flash();
-        generalLabel.setText(text.toString());
+        new FlashBoot().flash();
     }
 
     @FXML

@@ -1,6 +1,9 @@
 package com.github.nteditor.flash;
 
 import java.io.File;
+import java.util.List;
+
+import com.github.nteditor.Shell;
 
 import javafx.stage.FileChooser;
 
@@ -10,8 +13,7 @@ public class FlashBoot {
 
         fileChooser.getExtensionFilters().addAll(
             new FileChooser.ExtensionFilter("IMG Образ", "*.img"),
-            new FileChooser.ExtensionFilter("BIN Образ", "*.bin"),
-            new FileChooser.ExtensionFilter("Все Файлы", "*.*"));
+            new FileChooser.ExtensionFilter("BIN Образ", "*.bin"));
 
         return fileChooser.showOpenDialog(null);
     }
@@ -21,7 +23,24 @@ public class FlashBoot {
         return false;
     }
 
-    public boolean flash() {
-        return isCanceled(fileChooser());
+    public void flash() {
+        var file = fileChooser();
+        if (isCanceled(file)) {
+            System.out.println("1");
+            System.out.println(file);
+            System.out.println(file.getAbsolutePath());
+            return;
+        }
+        new Thread(() -> {
+            Shell shell = new Shell();
+            shell.setCommand(List.of("fastboot", "reboot", "fastboot"));
+            shell.start();
+            shell.setCommand(List.of("fastboot", "flash", "boot", file.getAbsolutePath()));
+            shell.start();
+
+            System.out.println("0");
+            System.out.println(file);
+            System.out.println(file.getAbsolutePath());
+        }).start();
     }
 }

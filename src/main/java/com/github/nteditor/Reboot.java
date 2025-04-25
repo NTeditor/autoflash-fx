@@ -1,20 +1,19 @@
 package com.github.nteditor;
 
+import java.util.List;
+
 public class Reboot {
-    private String[] to = new String[3];
+    private String to;
 
     public Reboot(String to) {
-        this.to[2] = to;
-        this.to[1] = "reboot";
+        this.to = to;
     }
 
     public void rebootS2() {
-        this.to[0] = "adb";
-        new Shell(this.to).start();
+        new Shell(List.of("adb", "reboot", this.to)).start();
     }
 
     public void rebootF2() {
-        this.to[0] = "fastboot";
-        new Shell(this.to).start();
+        new Shell(List.of("fastboot", "reboot", this.to)).start();
     }
 }
