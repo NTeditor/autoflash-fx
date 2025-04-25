@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.github.nteditor.flash.FlashBoot;
+import com.github.nteditor.flash.FlashGSI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class Home {
 
     @FXML
     void flashGSI(ActionEvent event) {
-
+        new FlashGSI().flash();
     }
 
     @FXML
