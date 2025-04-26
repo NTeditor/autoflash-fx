@@ -2,7 +2,7 @@
 
 # Запуск
 ## Требования
-- - **Android SDK** с инструментами `adb` и `fastboot` (должны быть добавлены в `PATH`).
+- **Android Platform Tools** (должны быть добавлены в `PATH`).
 
 ## Windows
 1. Распакуйте архив `autoflash-fx-0.0.1-SNAPSHOT.zip`.
