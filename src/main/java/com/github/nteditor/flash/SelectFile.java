@@ -15,7 +15,12 @@ public class SelectFile {
         return fileChooser.showOpenDialog(null);
     }
 
-    private boolean isCancel(File imgPath) {
+    public int getSize(File imgPath) {
+        if (imgPath == null) return 0;
+        return (int) (imgPath.length() / (1024 * 1024));
+    }
+
+    public boolean isCancel(File imgPath) {
         if (imgPath == null) return true;
         return false;
     }

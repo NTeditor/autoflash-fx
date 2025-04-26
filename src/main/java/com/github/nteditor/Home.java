@@ -58,7 +58,7 @@ public class Home {
     
     @FXML
     void rebootF2S(ActionEvent event) {
-        new Reboot("system").rebootF2();
+        new Reboot("").rebootF2();
     }
 
     @FXML
