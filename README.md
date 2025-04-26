@@ -2,7 +2,7 @@
 
 # Запуск
 ## Требования
-- **Android Platform Tools** (должны быть добавлены в `PATH`).
+- **Android Platform Tools** (должно быть добавлено в `PATH`).
 
 ## Windows
 1. Распакуйте архив `autoflash-fx-0.0.1-SNAPSHOT.zip`.
