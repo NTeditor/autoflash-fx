@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.nteditor</groupId>
     <artifactId>autoflash-fx</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,9 +46,9 @@
                     <compress>2</compress>
                     <noHeaderFiles>true</noHeaderFiles>
                     <noManPages>true</noManPages>
-                    <launcher>hellofx</launcher>
-                    <jlinkImageName>hello</jlinkImageName>
-                    <jlinkZipName>hellozip</jlinkZipName>
+                    <launcher>autoflash-fx-launcher</launcher>
+                    <jlinkImageName>autoflash-fx</jlinkImageName>
+                    <jlinkZipName>autoflash-fx-${project.version}</jlinkZipName>
                     <mainClass>com.github.nteditor.Main</mainClass>
                 </configuration>
             </plugin>   
