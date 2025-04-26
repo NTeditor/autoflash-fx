@@ -16,6 +16,10 @@ public class FlashGSI {
             System.out.println(file);
             return;
         }
+        if (selectFile.getSize(file) < 100) {
+            System.out.println("Файл слишком маленький!");
+            return;
+        }
         new Thread(() -> {
             Shell shell = new Shell();
             shell.setCommand(List.of("fastboot", "reboot", "fastboot"));

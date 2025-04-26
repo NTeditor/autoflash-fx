@@ -16,6 +16,7 @@ public class FlashBoot {
         }
         if  (selectFile.getSize(file) > 100) {
             System.out.println("Файл слишком большой!");
+            return;
         }
         new Thread(() -> {
             Shell shell = new Shell();
