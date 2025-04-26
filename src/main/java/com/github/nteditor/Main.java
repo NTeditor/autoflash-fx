@@ -19,6 +19,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("home"));
         stage.setScene(scene);
+        stage.setTitle("AutoFlash-FX");
         stage.show();
     }
 
