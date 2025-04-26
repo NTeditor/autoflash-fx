@@ -20,8 +20,19 @@ public class FlashGSI {
             Shell shell = new Shell();
             shell.setCommand(List.of("fastboot", "reboot", "fastboot"));
             shell.start();
-            shell.setCommand(List.of("fastboot", "flash", "boot", file.getAbsolutePath()));
+            System.out.println("Очистка system..");
+            shell.setCommand(List.of("fastboot", "erase", "system"));
             shell.start();
+            System.out.println("Удаление product_a..");
+            shell.setCommand(List.of("fastboot", "delete-logical-partition", "product_a"));
+            shell.start();
+            System.out.println("Удаление product_b..");
+            shell.setCommand(List.of("fastboot", "delete-logical-partition", "product_b"));
+            shell.start();
+            System.out.println("Прошивка system..");
+            shell.setCommand(List.of("fastboot", "flash", "system", file.getAbsolutePath()));
+            shell.start();
+            System.out.println("Прошивка завершина, сбросте настройки через recovery и перезагрузитесь в систему.");
 
             System.out.println("0");
             System.out.println(file);
