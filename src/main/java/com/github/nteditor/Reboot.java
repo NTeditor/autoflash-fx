@@ -10,10 +10,17 @@ public class Reboot {
     }
 
     public void rebootS2() {
-        new Shell(List.of("adb", "reboot", this.to)).start();
+        new Thread(() -> {
+            new Shell(List.of("adb", "reboot", this.to)).start();
+        });
     }
 
     public void rebootF2() {
-        new Shell(List.of("fastboot", "reboot", this.to)).start();
+        if (this.to == "system" || this.to == "System") {
+            this.to = "";
+        }
+        new Thread(() -> {
+            new Shell(List.of("fastboot", "reboot", this.to)).start();
+        });
     }
 }
