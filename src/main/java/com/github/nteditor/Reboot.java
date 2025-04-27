@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 public class Reboot {
     private String to;
     private Label outputLabel;
+    private Shell process;
 
     public Reboot(String to, Label outputLabel) {
         this.outputLabel = outputLabel;
@@ -18,14 +19,18 @@ public class Reboot {
     }
 
     public void rebootS2() {
-        new Thread(() -> {
-            new Shell(List.of("adb", "reboot", this.to), outputLabel).start();
-        }).start();
+        process = new Shell(List.of("adb", "reboot", this.to), outputLabel);
+        process.start();
     }
 
     public void rebootF2() {
-        new Thread(() -> {
-            new Shell(List.of("fastboot", "reboot", this.to), outputLabel).start();
-        }).start();
+        process = new Shell(List.of("fastboot", "reboot", this.to), outputLabel);
+        process.start();
+    }
+
+    public void stop() {
+        if (process != null) {
+            process.stop();
+        }
     }
 }

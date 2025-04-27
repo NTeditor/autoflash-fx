@@ -2,6 +2,7 @@ package com.github.nteditor;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -10,11 +11,17 @@ import com.github.nteditor.flash.FlashGSI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 
 public class Home {
+
+    private List<Shell> runningProcesses = new ArrayList<>();
+    private List<Reboot> runningProcessesReboot = new ArrayList<>();
+    private List<FlashGSI> runningProcessesGSI = new ArrayList<>();
+    private List<FlashBoot> runningProcessesBoot = new ArrayList<>();
 
     @FXML
     private ResourceBundle resources;
@@ -53,48 +60,84 @@ public class Home {
     private MenuItem isADBConnect;
 
     @FXML
+    private Button cancel;
+
+    @FXML
+    void cancel(ActionEvent event) {
+        for (FlashGSI shell : runningProcessesGSI) {
+            shell.stop();
+        }
+        
+        // for (FlashBoot shell : runningProcessesBoot) {
+        // }
+ 
+        for (Reboot shell : runningProcessesReboot) {
+            shell.stop();
+        }
+        
+        for (Shell shell : runningProcesses) {
+            shell.stop();
+        }
+
+        runningProcesses.clear();
+        runningProcessesReboot.clear();
+        runningProcessesGSI.clear();
+        runningProcessesBoot.clear();
+        output.setText("Все процессы остановлены.");
+    }
+
+    @FXML
     void flashBoot(ActionEvent event) {
         new FlashBoot(output).flash();
     }
 
     @FXML
     void flashGSI(ActionEvent event) {
-        new FlashGSI(output).flash();
+        var process = new FlashGSI(output);
+        runningProcessesGSI.add(process);
+        process.flash();
     }
 
     @FXML
     void rebootF2R(ActionEvent event) {
-        new Reboot("recovery", output).rebootF2();
+        var process = new Reboot("recovery", output);
+        runningProcessesReboot.add(process);
+        process.rebootF2();
     }
     
     @FXML
     void rebootF2S(ActionEvent event) {
-        new Reboot("system", output).rebootF2();
+        var process = new Reboot("system", output);
+        runningProcessesReboot.add(process);
+        process.rebootF2();
     }
 
     @FXML
     void rebootS2F(ActionEvent event) {
-        new Reboot("fastboot", output).rebootS2();
+        var process = new Reboot("fastboot", output);
+        runningProcessesReboot.add(process);
+        process.rebootS2();
     }
 
     @FXML
     void rebootS2R(ActionEvent event) {
-        new Reboot("recovery", output).rebootS2();
+        var process = new Reboot("recovery", output);
+        runningProcessesReboot.add(process);
+        process.rebootS2();
     }
 
     @FXML
     void isADBConnect(ActionEvent event) {
-        new Thread(() -> {
-            new Shell(List.of("adb", "devices"), output).start();
-        }).start();
+        var process = new Shell(List.of("adb", "devices"), output);
+        runningProcesses.add(process);
+        process.start();  
     }
     
     @FXML
     void isFastbootConnect(ActionEvent event) {
-        new Thread(() -> {
-            System.out.println("Если вы не получили список устройств, то устройство не обнаружено.");
-            new Shell(List.of("fastboot", "devices"), output).start();
-        }).start();
+        var process = new Shell(List.of("fastboot", "device"), output);
+        runningProcesses.add(process);
+        process.start();
     }
 
     @FXML

@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 public class Shell {
     private List<String> command;
     private Label outputLabel;
+    private Process process;
 
     public Shell(List<String> command, Label outputLabel) {
         this.command = command;
@@ -25,16 +26,18 @@ public class Shell {
 
     private void runCommand(List<String> command) {
         try {
-            var process = new ProcessBuilder(command)
+            process = new ProcessBuilder(command)
                 .redirectErrorStream(true)
                 .start();
 
 
             try (var reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String line;
+                Platform.runLater(() -> outputLabel.setText(""));
                 while ((line = reader.readLine()) != null) {
                     String finalLine = line;
-                    Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + finalLine));
+                    Platform.runLater(() ->
+                        outputLabel.setText(outputLabel.getText() + "\n" + finalLine));
                 }
             }
 
@@ -55,9 +58,15 @@ public class Shell {
     public void start() {
         if (command == null) {
             System.out.println("Command is not set.");
-            throw new IllegalStateException("Command is not set.");
+            throw new NullPointerException("Command is not set.");
         }
         runCommand(command);
+    }
+
+    public void stop() {
+        if (process != null && process.isAlive()) {
+            process.destroy();
+        }
     }
 
 }
