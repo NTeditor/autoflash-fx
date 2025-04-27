@@ -5,13 +5,18 @@ import java.io.File;
 import java.util.List;
 import com.github.nteditor.Shell;
 
+import javafx.scene.control.Label;
+
 public class FlashBoot {
 
     private final int MAX_FILE_SIZE = 100; // MB
+
     private SelectFile selectFile;
     private File file;
+    private Label outputLabel;
 
-    public FlashBoot() {
+    public FlashBoot(Label outputLabel) {
+        this.outputLabel = outputLabel;
         this.selectFile = new SelectFile();
         this.file = selectFile.getFile();
     }
@@ -20,7 +25,7 @@ public class FlashBoot {
         System.out.println("Выбран файл: " + file.getAbsolutePath());
 
         new Thread(() -> {
-            Shell shell = new Shell();
+            Shell shell = new Shell(outputLabel);
             shell.setCommand(List.of("fastboot", "reboot", "fastboot"));
             shell.start();
             shell.setCommand(List.of("fastboot", "flash", "boot", file.getAbsolutePath()));
