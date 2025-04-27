@@ -41,7 +41,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         files: target/autoflash-fx.zip
-        tag_name: TEST_GITHUB_ACTIONS
-        release_name: TEST_GITHUB_ACTIONS
+        tag_name: v0.0.1-${{ github.run_number }}
+        release_name: v0.0.1 GitHub Actions Build #${{ github.run_number }}
+        generate_release_notes: true
+        body: |
+          Automatically generated release from GitHub Actions.
+          
         draft: false
         prerelease: true
