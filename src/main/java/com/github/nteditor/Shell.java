@@ -28,7 +28,6 @@ public class Shell {
 
             try (var reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String line;
-                Platform.runLater(() -> outputLabel.setText(""));
                 while ((line = reader.readLine()) != null) {
                     String finalLine = line;
                     Platform.runLater(() ->

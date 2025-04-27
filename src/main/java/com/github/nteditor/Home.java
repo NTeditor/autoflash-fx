@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.github.nteditor.flash.FlashBoot;
 import com.github.nteditor.flash.FlashGSI;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -84,7 +85,7 @@ public class Home {
         runningProcessesReboot.clear();
         runningProcessesGSI.clear();
         runningProcessesBoot.clear();
-        output.setText("Все процессы остановлены.");
+        output.setText("Все дочернии процессы остановлены.");
     }
 
     @FXML
@@ -141,8 +142,9 @@ public class Home {
     
     @FXML
     void isFastbootConnect(ActionEvent event) {
+        Platform.runLater(() -> output.setText("Устройства в fastboot:"));
         new Thread(() -> {
-            var process = new Shell(List.of("fastboot", "device"), output);
+            var process = new Shell(List.of("fastboot", "devices"), output);
             runningProcesses.add(process);
             process.start();
         }).start();
@@ -150,16 +152,16 @@ public class Home {
 
     @FXML
     void initialize() {
-        assert flashBoot != null : "fx:id=\"flashBoot\" was not injected: check your FXML file 'Untitled'.";
-        assert flashGSI != null : "fx:id=\"flashGSI\" was not injected: check your FXML file 'Untitled'.";
-        assert rebootF2R != null : "fx:id=\"rebootF2R\" was not injected: check your FXML file 'Untitled'.";
-        assert rebootF2S != null : "fx:id=\"rebootF2S\" was not injected: check your FXML file 'Untitled'.";
-        assert rebootS2F != null : "fx:id=\"rebootS2F\" was not injected: check your FXML file 'Untitled'.";
-        assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Untitled'.";
-        assert isADBConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Untitled'.";
-        assert isFastbootConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Untitled'.";
-        assert loading != null : "fx:id=\"loading\" was not injected: check your FXML file 'Untitled'.";
-        assert output != null : "fx:id=\"output\" was not injected: check your FXML file 'Untitled'.";
+        assert flashBoot != null : "fx:id=\"flashBoot\" was not injected: check your FXML file 'home.fxml'.";
+        assert flashGSI != null : "fx:id=\"flashGSI\" was not injected: check your FXML file 'home.fxml'.";
+        assert rebootF2R != null : "fx:id=\"rebootF2R\" was not injected: check your FXML file 'Home.fxml'.";
+        assert rebootF2S != null : "fx:id=\"rebootF2S\" was not injected: check your FXML file 'Home.fxml'.";
+        assert rebootS2F != null : "fx:id=\"rebootS2F\" was not injected: check your FXML file 'Home.fxml'.";
+        assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Home.fxml'.";
+        assert isADBConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Home.fxml'.";
+        assert isFastbootConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Home.fxml'.";
+        assert loading != null : "fx:id=\"loading\" was not injected: check your FXML file 'Home.fxml'.";
+        assert output != null : "fx:id=\"output\" was not injected: check your FXML file 'Home.fxml'.";
 
     }
 
