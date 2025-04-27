@@ -40,6 +40,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        files: target/autoflash.zip
         tag_name: TEST_GITHUB_ACTIONS
         release_name: TEST_GITHUB_ACTIONS
         draft: false

@@ -48,7 +48,7 @@
                     <noManPages>true</noManPages>
                     <launcher>autoflash-fx-launcher</launcher>
                     <jlinkImageName>autoflash-fx</jlinkImageName>
-                    <jlinkZipName>autoflash-fx-${project.version}</jlinkZipName>
+                    <jlinkZipName>autoflash-fx</jlinkZipName>
                     <mainClass>com.github.nteditor.Main</mainClass>
                 </configuration>
             </plugin>   
