@@ -6,7 +6,11 @@ public class Reboot {
     private String to;
 
     public Reboot(String to) {
-        this.to = to;
+        if (to == "system" || to == "System") {
+            this.to = "";
+        } else {
+            this.to = to;
+        }
     }
 
     public void rebootS2() {
@@ -16,9 +20,6 @@ public class Reboot {
     }
 
     public void rebootF2() {
-        if (this.to == "system" || this.to == "System") {
-            this.to = "";
-        }
         new Thread(() -> {
             new Shell(List.of("fastboot", "reboot", this.to)).start();
         });

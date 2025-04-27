@@ -9,16 +9,12 @@ import com.github.nteditor.flash.FlashGSI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 
 public class Home {
 
     @FXML
     private ResourceBundle resources;
-
-    @FXML
-    private Label generalLabel;
 
     @FXML
     private URL location;
@@ -79,7 +75,6 @@ public class Home {
         assert rebootF2S != null : "fx:id=\"rebootF2S\" was not injected: check your FXML file 'Untitled'.";
         assert rebootS2F != null : "fx:id=\"rebootS2F\" was not injected: check your FXML file 'Untitled'.";
         assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Untitled'.";
-        assert generalLabel != null : "fx:id=\"generalLabel\" was not injected: check your FXML file 'Untitled'.";
 
     }
 
