@@ -34,5 +34,13 @@ jobs:
     - name: Build
       run: mvn clean javafx:jlink
 
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@v4
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v2.2.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: TEST_GITHUB_ACTIONS
+        release_name: TEST_GITHUB_ACTIONS
+        draft: false
+        prerelease: true
