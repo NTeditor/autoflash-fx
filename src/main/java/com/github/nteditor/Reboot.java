@@ -19,13 +19,17 @@ public class Reboot {
     }
 
     public void rebootS2() {
-        process = new Shell(List.of("adb", "reboot", this.to), outputLabel);
-        process.start();
+        new Thread(() -> {
+            process = new Shell(List.of("adb", "reboot", this.to), outputLabel);
+            process.start();
+        }).start();   
     }
 
     public void rebootF2() {
-        process = new Shell(List.of("fastboot", "reboot", this.to), outputLabel);
-        process.start();
+        new Thread(() -> {
+            process = new Shell(List.of("fastboot", "reboot", this.to), outputLabel);
+            process.start();
+        }).start();
     }
 
     public void stop() {

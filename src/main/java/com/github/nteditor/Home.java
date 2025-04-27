@@ -89,7 +89,10 @@ public class Home {
 
     @FXML
     void flashBoot(ActionEvent event) {
-        new FlashBoot(output).flash();
+        
+        var process = new FlashBoot(output);
+        runningProcessesBoot.add(process);
+        process.flash();
     }
 
     @FXML
@@ -129,16 +132,20 @@ public class Home {
 
     @FXML
     void isADBConnect(ActionEvent event) {
-        var process = new Shell(List.of("adb", "devices"), output);
-        runningProcesses.add(process);
-        process.start();  
+        new Thread(() -> {
+            var process = new Shell(List.of("adb", "devices"), output);
+            runningProcesses.add(process);
+            process.start();
+        }).start();  
     }
     
     @FXML
     void isFastbootConnect(ActionEvent event) {
-        var process = new Shell(List.of("fastboot", "device"), output);
-        runningProcesses.add(process);
-        process.start();
+        new Thread(() -> {
+            var process = new Shell(List.of("fastboot", "device"), output);
+            runningProcesses.add(process);
+            process.start();
+        }).start();
     }
 
     @FXML
