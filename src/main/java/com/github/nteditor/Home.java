@@ -68,8 +68,9 @@ public class Home {
             shell.stop();
         }
         
-        // for (FlashBoot shell : runningProcessesBoot) {
-        // }
+        for (FlashBoot shell : runningProcessesBoot) {
+            shell.stop();
+        }
  
         for (Reboot shell : runningProcessesReboot) {
             shell.stop();
