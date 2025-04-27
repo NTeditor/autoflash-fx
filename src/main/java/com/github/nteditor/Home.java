@@ -2,6 +2,7 @@ package com.github.nteditor;
 
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.github.nteditor.flash.FlashBoot;
@@ -38,6 +39,12 @@ public class Home {
     private MenuItem rebootS2R;
 
     @FXML
+    private MenuItem fastbootDevice;
+
+    @FXML
+    private MenuItem adbDevice;
+
+    @FXML
     void flashBoot(ActionEvent event) {
         new FlashBoot().flash();
     }
@@ -68,6 +75,20 @@ public class Home {
     }
 
     @FXML
+    void adbDevice(ActionEvent event) {
+        new Thread(() -> {
+            new Shell(List.of("adb", "devices")).start();
+        }).start();
+    }
+    
+    @FXML
+    void fastbootDevice(ActionEvent event) {
+        new Thread(() -> {
+            new Shell(List.of("fastboot", "devices")).start();
+        }).start();
+    }
+
+    @FXML
     void initialize() {
         assert flashBoot != null : "fx:id=\"flashBoot\" was not injected: check your FXML file 'Untitled'.";
         assert flashGSI != null : "fx:id=\"flashGSI\" was not injected: check your FXML file 'Untitled'.";
@@ -75,6 +96,8 @@ public class Home {
         assert rebootF2S != null : "fx:id=\"rebootF2S\" was not injected: check your FXML file 'Untitled'.";
         assert rebootS2F != null : "fx:id=\"rebootS2F\" was not injected: check your FXML file 'Untitled'.";
         assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Untitled'.";
+        assert adbDevice != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Untitled'.";
+        assert fastbootDevice != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Untitled'.";
 
     }
 

@@ -22,8 +22,8 @@
       </Menu>
       <Menu mnemonicParsing="false" text="Get Devices Info">
         <items>
-            <MenuItem fx:id="adbDevice" mnemonicParsing="false" text="adb" />
-            <MenuItem fx:id="fastbootDevice" mnemonicParsing="false" text="fastboot" />
+            <MenuItem fx:id="adbDevice" mnemonicParsing="false" onAction="#adbDevice" text="adb" />
+            <MenuItem fx:id="fastbootDevice" mnemonicParsing="false" onAction="#fastbootDevice" text="fastboot" />
         </items>
       </Menu>
    </menus>
