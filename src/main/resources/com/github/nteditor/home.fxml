@@ -20,10 +20,10 @@
             <MenuItem fx:id="flashGSI" mnemonicParsing="false" onAction="#flashGSI" text="GSI" />
          </items>
       </Menu>
-      <Menu mnemonicParsing="false" text="Get Devices Info">
+      <Menu mnemonicParsing="false" text="Проверка подключения">
         <items>
-            <MenuItem fx:id="adbDevice" mnemonicParsing="false" onAction="#adbDevice" text="adb" />
-            <MenuItem fx:id="fastbootDevice" mnemonicParsing="false" onAction="#fastbootDevice" text="fastboot" />
+            <MenuItem fx:id="isADBConnect" mnemonicParsing="false" onAction="#isADBConnect" text="adb" />
+            <MenuItem fx:id="isFastbootConnect" mnemonicParsing="false" onAction="#isFastbootConnect" text="fastboot" />
         </items>
       </Menu>
    </menus>

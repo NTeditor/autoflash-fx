@@ -39,10 +39,10 @@ public class Home {
     private MenuItem rebootS2R;
 
     @FXML
-    private MenuItem fastbootDevice;
+    private MenuItem isFastbootConnect;
 
     @FXML
-    private MenuItem adbDevice;
+    private MenuItem isADBConnect;
 
     @FXML
     void flashBoot(ActionEvent event) {
@@ -75,15 +75,16 @@ public class Home {
     }
 
     @FXML
-    void adbDevice(ActionEvent event) {
+    void isADBConnect(ActionEvent event) {
         new Thread(() -> {
             new Shell(List.of("adb", "devices")).start();
         }).start();
     }
     
     @FXML
-    void fastbootDevice(ActionEvent event) {
+    void isFastbootConnect(ActionEvent event) {
         new Thread(() -> {
+            System.out.println("Если вы не получили список устройств, то устройство не обнаружено.");
             new Shell(List.of("fastboot", "devices")).start();
         }).start();
     }
@@ -96,8 +97,8 @@ public class Home {
         assert rebootF2S != null : "fx:id=\"rebootF2S\" was not injected: check your FXML file 'Untitled'.";
         assert rebootS2F != null : "fx:id=\"rebootS2F\" was not injected: check your FXML file 'Untitled'.";
         assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Untitled'.";
-        assert adbDevice != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Untitled'.";
-        assert fastbootDevice != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Untitled'.";
+        assert isADBConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Untitled'.";
+        assert isFastbootConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Untitled'.";
 
     }
 
