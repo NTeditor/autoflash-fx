@@ -2,6 +2,7 @@ package com.github.nteditor.flash;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import com.github.nteditor.Shell;
 
@@ -14,6 +15,9 @@ public class FlashBoot {
     private SelectFile selectFile;
     private File file;
     private Label outputLabel;
+    private List<Shell> processList = new ArrayList<>();
+    private volatile boolean isCancelled = false;
+
 
     public FlashBoot(Label outputLabel) {
         this.outputLabel = outputLabel;
@@ -25,11 +29,16 @@ public class FlashBoot {
         System.out.println("Выбран файл: " + file.getAbsolutePath());
 
         new Thread(() -> {
-            Shell shell = new Shell(outputLabel);
-            shell.setCommand(List.of("fastboot", "reboot", "fastboot"));
-            shell.start();
-            shell.setCommand(List.of("fastboot", "flash", "boot", file.getAbsolutePath()));
-            shell.start();
+            if (isCancelled) return;
+            var proc1 = new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel);  
+            processList.add(proc1);
+            proc1.start();
+            
+            if (isCancelled) return;
+            var proc2 = new Shell(List.of("fastboot", "flash", "boot", file.getAbsolutePath()), outputLabel);
+            processList.add(proc2);
+            proc2.start();
+
             System.out.println("Готово!");
         }).start();
     }
@@ -42,7 +51,17 @@ public class FlashBoot {
         if  (selectFile.getSize(file) > MAX_FILE_SIZE) {
             System.err.println("Файл слишком большой!");
             return;
+        } else {
+            if (isCancelled) return;
+            startFlash();
         }
-        startFlash();
+    }
+
+    public void stop() {
+        isCancelled = true;
+        for (Shell shell : processList) {
+            shell.stop();
+        }
+        processList.clear();
     }
 }

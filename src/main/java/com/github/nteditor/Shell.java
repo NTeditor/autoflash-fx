@@ -19,11 +19,6 @@ public class Shell {
         this.outputLabel = outputLabel;
     }
 
-    public Shell(Label outputLabel) {
-        this.outputLabel = outputLabel;
-        this.command = null;
-    }
-
     private void runCommand(List<String> command) {
         try {
             process = new ProcessBuilder(command)
