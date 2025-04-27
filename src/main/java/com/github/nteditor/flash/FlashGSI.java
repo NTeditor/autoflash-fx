@@ -1,6 +1,7 @@
 package com.github.nteditor.flash;
 
 
+import java.io.File;
 import java.util.List;
 
 import com.github.nteditor.Shell;
@@ -8,18 +9,20 @@ import com.github.nteditor.Shell;
 
 public class FlashGSI {
 
-    public void flash() {
-        var selectFile = new SelectFile();
-        var file = selectFile.getFile();
-        if (selectFile.isCanceled(file)) {
-            System.out.println("1");
-            System.out.println(file);
-            return;
-        }
-        if (selectFile.getSize(file) < 100) {
-            System.out.println("Файл слишком маленький!");
-            return;
-        }
+    private final int MIN_FILE_SIZE = 500; // MB
+    private final int MAX_FILE_SIZE = 7168; // MB
+
+    private SelectFile selectFile;
+    private File file;
+
+    public FlashGSI() {
+        this.selectFile = new SelectFile();
+        this.file = selectFile.getFile();
+    }
+
+    private void startFlash() {
+        System.out.println("Выбран файл: " + file.getAbsolutePath());
+
         new Thread(() -> {
             Shell shell = new Shell();
             shell.setCommand(List.of("fastboot", "reboot", "fastboot"));
@@ -37,10 +40,21 @@ public class FlashGSI {
             shell.setCommand(List.of("fastboot", "flash", "system", file.getAbsolutePath()));
             shell.start();
             System.out.println("Прошивка завершина, сбросте настройки через recovery и перезагрузитесь в систему.");
-
-            System.out.println("0");
-            System.out.println(file);
-            System.out.println(file.getAbsolutePath());
         }).start();
+    }
+
+    public void flash() {
+        if (selectFile.isCanceled(file)) {
+            System.err.println("Выбор файла отменен!");
+            return;
+        } else if (selectFile.getSize(file) > MAX_FILE_SIZE) {
+            System.err.println("Файл слишком большой!");
+            return;
+        } else if (selectFile.getSize(file) < MIN_FILE_SIZE) {
+            System.err.println("Файл слишком маленький!");
+            return;
+        } else {
+            startFlash();
+        }
     }
 }
