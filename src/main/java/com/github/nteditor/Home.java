@@ -157,7 +157,7 @@ public class Home {
         assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Home.fxml'.";
         assert isADBConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Home.fxml'.";
         assert isFastbootConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Home.fxml'.";
-        assert outputLabel != null : "fx:id=\"output\" was not injected: check your FXML file 'Home.fxml'.";
+        assert outputLabel != null : "fx:id=\"outputLabel\" was not injected: check your FXML file 'Home.fxml'.";
 
     }
 

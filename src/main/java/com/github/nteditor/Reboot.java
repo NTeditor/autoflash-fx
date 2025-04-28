@@ -1,5 +1,6 @@
 package com.github.nteditor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
@@ -8,7 +9,7 @@ import javafx.scene.control.Label;
 public class Reboot {
     private String to;
     private Label outputLabel;
-    private Shell process;
+    private ArrayList<Shell> processList;
 
     public Reboot(String to, Label outputLabel) {
         this.outputLabel = outputLabel;
@@ -22,22 +23,25 @@ public class Reboot {
     public void rebootS2() {
         Platform.runLater(() -> outputLabel.setText("Перезагрузка в " + this.to + "..."));
         new Thread(() -> {
-            process = new Shell(List.of("adb", "reboot", this.to), outputLabel);
-            process.start();
+            var proc = new Shell(List.of("adb", "reboot", this.to), outputLabel);
+            processList.add(proc);
+            proc.start();
         }).start();   
     }
     
     public void rebootF2() {
         Platform.runLater(() -> outputLabel.setText("Перезагрузка в " + this.to + "..."));
         new Thread(() -> {
-            process = new Shell(List.of("fastboot", "reboot", this.to), outputLabel);
-            process.start();
+            var proc = new Shell(List.of("fastboot", "reboot", this.to), outputLabel);
+            processList.add(proc);
+            proc.start();
         }).start();
     }
 
     public void stop() {
-        if (process != null) {
-            process.stop();
+        for (Shell shell : processList) {
+            shell.stop();
         }
+        processList.clear();
     }
 }

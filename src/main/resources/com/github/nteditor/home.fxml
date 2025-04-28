@@ -58,7 +58,7 @@
       </MenuBar>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <content>
-            <Label fx:id="output" text="Label" />
+            <Label fx:id="outputLabel" text="Label" />
          </content>
          <GridPane.margin>
             <Insets left="20.0" right="20.0" top="20.0" />
