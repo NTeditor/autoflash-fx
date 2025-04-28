@@ -9,17 +9,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <javafx.version>21.0.7</javafx.version>
+        <javafx.plugin.version>0.0.8</javafx.plugin.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21.0.7</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21.0.7</version>
+            <version>${javafx.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -27,7 +29,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.14.0</version>
                 <configuration>
                     <release>11</release>
                 </configuration>
@@ -35,7 +37,7 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
+                <version>${javafx.plugin.version}</version>
                 <configuration>
                     <stripDebug>true</stripDebug>
                     <compress>2</compress>
@@ -44,7 +46,7 @@
                     <launcher>autoflash-fx-launcher</launcher>
                     <jlinkImageName>autoflash-fx</jlinkImageName>
                     <jlinkZipName>autoflash-fx</jlinkZipName>
-                    <mainClass>com.github.nteditor.Main</mainClass>
+                    <mainClass>com.github.nteditor/com.github.nteditor.Main</mainClass>
                 </configuration>
             </plugin>   
         </plugins>
