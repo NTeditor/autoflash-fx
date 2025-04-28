@@ -29,7 +29,8 @@ public class FlashGSI {
     }
 
     private void startFlash() {
-        Platform.runLater(() -> outputLabel.setText("Выбран файл: " + file.getAbsolutePath()));
+        Platform.runLater(() -> outputLabel.setText("Прошивка GSI\n" +
+            "Выбран файл: " + file.getAbsolutePath()));
         new Thread(() -> {
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText("Перезагрузка.."));
@@ -68,13 +69,13 @@ public class FlashGSI {
 
     public void flash() {
         if (selectFile.isCanceled(file)) {
-            System.err.println("Выбор файла отменен!");
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Выбор файла отменен!"));
             return;
         } else if (selectFile.getSize(file) > MAX_FILE_SIZE) {
-            System.err.println("Файл слишком большой!");
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком большой!"));
             return;
         } else if (selectFile.getSize(file) < MIN_FILE_SIZE) {
-            System.err.println("Файл слишком маленький!");
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком маленький!"));
             return;
         } else {
             if (isCancelled) return;

@@ -133,6 +133,7 @@ public class Home {
 
     @FXML
     void isADBConnect(ActionEvent event) {
+        Platform.runLater(() -> output.setText("Устройства в режиме adb:"));
         new Thread(() -> {
             var process = new Shell(List.of("adb", "devices"), output);
             runningProcesses.add(process);
@@ -142,7 +143,7 @@ public class Home {
     
     @FXML
     void isFastbootConnect(ActionEvent event) {
-        Platform.runLater(() -> output.setText("Устройства в fastboot:"));
+        Platform.runLater(() -> output.setText("Устройства в режиме fastboot:"));
         new Thread(() -> {
             var process = new Shell(List.of("fastboot", "devices"), output);
             runningProcesses.add(process);

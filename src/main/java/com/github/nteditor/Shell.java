@@ -37,7 +37,7 @@ public class Shell {
 
             int exitCode = process.waitFor();
             Platform.runLater(() ->
-                outputLabel.setText(outputLabel.getText() + "\nProcess exited with code: " + exitCode));
+                outputLabel.setText(outputLabel.getText() + "\nКод ошибки: " + exitCode));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();
@@ -45,13 +45,8 @@ public class Shell {
         }
     }
 
-    public void setCommand(List<String> command) {
-        this.command = command;
-    }
-
     public void start() {
         if (command == null) {
-            System.out.println("Command is not set.");
             throw new NullPointerException("Command is not set.");
         }
         runCommand(command);

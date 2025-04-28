@@ -27,7 +27,8 @@ public class FlashBoot {
     }
 
     private void startFlash() {
-        Platform.runLater(() -> outputLabel.setText("Выбран файл: " + file.getAbsolutePath()));
+        Platform.runLater(() -> outputLabel.setText("Прошивка Boot\n" +
+            "Выбран файл: " + file.getAbsolutePath()));
         new Thread(() -> {
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText("Перезагрузка.."));
@@ -48,11 +49,11 @@ public class FlashBoot {
 
     public void flash() {
         if (selectFile.isCanceled(file)) {
-            System.err.println("Выбор файла отменен!");
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Выбор файла отменен!"));
             return;
         }
         if  (selectFile.getSize(file) > MAX_FILE_SIZE) {
-            System.err.println("Файл слишком большой!");
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком большой!"));
             return;
         } else {
             if (isCancelled) return;
