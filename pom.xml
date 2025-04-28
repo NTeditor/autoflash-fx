@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.nteditor</groupId>
     <artifactId>autoflash-fx</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RELEASE-CANDIDATE</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,12 +40,14 @@
                 <version>${javafx.plugin.version}</version>
                 <configuration>
                     <stripDebug>true</stripDebug>
+                    <stripJavaDebugAttributes>true</stripJavaDebugAttributes>
                     <compress>2</compress>
                     <noHeaderFiles>true</noHeaderFiles>
                     <noManPages>true</noManPages>
-                    <launcher>autoflash-fx-launcher</launcher>
-                    <jlinkImageName>autoflash-fx</jlinkImageName>
-                    <jlinkZipName>autoflash-fx</jlinkZipName>
+                    <ignoreSigningInformation>true</ignoreSigningInformation>
+                    <launcher>autoFlashFX-Launcher</launcher>
+                    <jlinkImageName>autoFlashFX-v${project.version}</jlinkImageName>
+                    <jlinkZipName>autoFlashFX-v${project.version}</jlinkZipName>
                     <mainClass>com.github.nteditor/com.github.nteditor.Main</mainClass>
                 </configuration>
             </plugin>   
