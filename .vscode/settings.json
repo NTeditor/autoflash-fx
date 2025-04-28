@@ -1,3 +1,13 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "maven.terminal.favorites": [
+        {
+            "command": "clean javafx:run",
+            "debug": false
+        },
+        {
+            "command": "clean javafx:jlink",
+            "debug": false
+        }
+    ]
 }
