@@ -9,6 +9,7 @@ import com.github.nteditor.Shell;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 
 
 public class FlashGSI {
@@ -19,11 +20,13 @@ public class FlashGSI {
     private SelectFile selectFile;
     private File file;
     private Label outputLabel;
+    private ProgressBar progressBar;
     private List<Shell> processList = new ArrayList<>();
     private volatile boolean isCancelled = false;
 
-    public FlashGSI(Label outputLabel) {
+    public FlashGSI(Label outputLabel, ProgressBar progressBar) {
         this.outputLabel = outputLabel;
+        this.progressBar = progressBar;
         this.selectFile = new SelectFile();
         this.file = selectFile.getFile();
     }
@@ -31,6 +34,7 @@ public class FlashGSI {
     private void startFlash() {
         Platform.runLater(() -> outputLabel.setText("Прошивка GSI\n" +
             "Выбран файл: " + file.getAbsolutePath()));
+        progressBar.setProgress(0);
         new Thread(() -> {
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText("Перезагрузка.."));
@@ -38,30 +42,35 @@ public class FlashGSI {
             processList.add(proc1);
             proc1.start();
 
+            progressBar.setProgress(0.2);
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText("Очистка system.."));
             var proc2 = new Shell(List.of("fastboot", "erase", "system"), outputLabel);
             processList.add(proc2);
             proc2.start();
-
+            
+            progressBar.setProgress(0.2);
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText("Удаление product_a.."));
             var proc3 = new Shell(List.of("fastboot", "delete-logical-partition", "product_a"), outputLabel);
             processList.add(proc3);
             proc3.start();
-
+            
+            progressBar.setProgress(0.2);
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText("Удаление product_b.."));
             var proc4 = new Shell(List.of("fastboot", "delete-logical-partition", "product_b"), outputLabel);
             processList.add(proc4);
             proc4.start();
 
+            progressBar.setProgress(0.2);
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText("Прошивка system.."));
             var proc5 = new Shell(List.of("fastboot", "flash", "system", file.getAbsolutePath()), outputLabel);
             processList.add(proc5);
             proc5.start();
-
+            
+            progressBar.setProgress(0.2);
             if (isCancelled) return;
             System.out.println("Прошивка завершена, сбросьте настройки через recovery и перезагрузитесь в систему.");
         }).start();

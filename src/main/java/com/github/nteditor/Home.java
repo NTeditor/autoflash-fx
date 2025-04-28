@@ -98,7 +98,7 @@ public class Home {
 
     @FXML
     void flashGSI(ActionEvent event) {
-        var process = new FlashGSI(output);
+        var process = new FlashGSI(output, loading);
         runningProcessesGSI.add(process);
         process.flash();
     }
