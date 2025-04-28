@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ProgressBar;
 
 public class Home {
 
@@ -31,10 +30,7 @@ public class Home {
     private URL location;
 
     @FXML
-    private ProgressBar loading;
-
-    @FXML
-    private Label output;
+    private Label outputLabel;
 
     @FXML
     private MenuItem flashBoot;
@@ -85,57 +81,57 @@ public class Home {
         runningProcessesReboot.clear();
         runningProcessesGSI.clear();
         runningProcessesBoot.clear();
-        output.setText("Все дочернии процессы остановлены.");
+        outputLabel.setText("Все дочернии процессы остановлены.");
     }
 
     @FXML
     void flashBoot(ActionEvent event) {
         
-        var process = new FlashBoot(output);
+        var process = new FlashBoot(outputLabel);
         runningProcessesBoot.add(process);
         process.flash();
     }
 
     @FXML
     void flashGSI(ActionEvent event) {
-        var process = new FlashGSI(output, loading);
+        var process = new FlashGSI(outputLabel);
         runningProcessesGSI.add(process);
         process.flash();
     }
 
     @FXML
     void rebootF2R(ActionEvent event) {
-        var process = new Reboot("recovery", output);
+        var process = new Reboot("recovery", outputLabel);
         runningProcessesReboot.add(process);
         process.rebootF2();
     }
     
     @FXML
     void rebootF2S(ActionEvent event) {
-        var process = new Reboot("system", output);
+        var process = new Reboot("system", outputLabel);
         runningProcessesReboot.add(process);
         process.rebootF2();
     }
 
     @FXML
     void rebootS2F(ActionEvent event) {
-        var process = new Reboot("fastboot", output);
+        var process = new Reboot("fastboot", outputLabel);
         runningProcessesReboot.add(process);
         process.rebootS2();
     }
 
     @FXML
     void rebootS2R(ActionEvent event) {
-        var process = new Reboot("recovery", output);
+        var process = new Reboot("recovery", outputLabel);
         runningProcessesReboot.add(process);
         process.rebootS2();
     }
 
     @FXML
     void isADBConnect(ActionEvent event) {
-        Platform.runLater(() -> output.setText("Устройства в режиме adb:"));
+        Platform.runLater(() -> outputLabel.setText("Устройства в режиме adb:"));
         new Thread(() -> {
-            var process = new Shell(List.of("adb", "devices"), output);
+            var process = new Shell(List.of("adb", "devices"), outputLabel);
             runningProcesses.add(process);
             process.start();
         }).start();  
@@ -143,9 +139,9 @@ public class Home {
     
     @FXML
     void isFastbootConnect(ActionEvent event) {
-        Platform.runLater(() -> output.setText("Устройства в режиме fastboot:"));
+        Platform.runLater(() -> outputLabel.setText("Устройства в режиме fastboot:"));
         new Thread(() -> {
-            var process = new Shell(List.of("fastboot", "devices"), output);
+            var process = new Shell(List.of("fastboot", "devices"), outputLabel);
             runningProcesses.add(process);
             process.start();
         }).start();
@@ -161,8 +157,7 @@ public class Home {
         assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Home.fxml'.";
         assert isADBConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Home.fxml'.";
         assert isFastbootConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Home.fxml'.";
-        assert loading != null : "fx:id=\"loading\" was not injected: check your FXML file 'Home.fxml'.";
-        assert output != null : "fx:id=\"output\" was not injected: check your FXML file 'Home.fxml'.";
+        assert outputLabel != null : "fx:id=\"output\" was not injected: check your FXML file 'Home.fxml'.";
 
     }
 
