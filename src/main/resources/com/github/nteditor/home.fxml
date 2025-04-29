@@ -48,10 +48,10 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Проверка подключения">
                <items>
-                  <MenuItem fx:id="isADBConnect" mnemonicParsing="false" onAction="#isADBConnect"
+                  <MenuItem fx:id="adbDevices" mnemonicParsing="false" onAction="#getADBDevices"
                      text="adb" />
-                  <MenuItem fx:id="isFastbootConnect" mnemonicParsing="false"
-                     onAction="#isFastbootConnect" text="fastboot" />
+                  <MenuItem fx:id="fastbootDevices" mnemonicParsing="false"
+                     onAction="#getFastbootDevices" text="fastboot" />
                </items>
             </Menu>
          </menus>

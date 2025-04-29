@@ -51,10 +51,10 @@ public class Home {
     private MenuItem rebootS2R;
 
     @FXML
-    private MenuItem isFastbootConnect;
+    private MenuItem fastbootDevices;
 
     @FXML
-    private MenuItem isADBConnect;
+    private MenuItem adbDevices;
 
     @FXML
     private Button cancel;
@@ -128,7 +128,7 @@ public class Home {
     }
 
     @FXML
-    void isADBConnect(ActionEvent event) {
+    void getADBDevices(ActionEvent event) {
         Platform.runLater(() -> outputLabel.setText("Устройства в режиме adb:"));
         new Thread(() -> {
             var process = new Shell(List.of("adb", "devices"), outputLabel);
@@ -138,7 +138,7 @@ public class Home {
     }
     
     @FXML
-    void isFastbootConnect(ActionEvent event) {
+    void getFastbootDevices(ActionEvent event) {
         Platform.runLater(() -> outputLabel.setText("Устройства в режиме fastboot:"));
         new Thread(() -> {
             var process = new Shell(List.of("fastboot", "devices"), outputLabel);
@@ -155,8 +155,8 @@ public class Home {
         assert rebootF2S != null : "fx:id=\"rebootF2S\" was not injected: check your FXML file 'Home.fxml'.";
         assert rebootS2F != null : "fx:id=\"rebootS2F\" was not injected: check your FXML file 'Home.fxml'.";
         assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Home.fxml'.";
-        assert isADBConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Home.fxml'.";
-        assert isFastbootConnect != null : "fx:id=\"adbDevice\" was not injected: check your FXML file 'Home.fxml'.";
+        assert adbDevices != null : "fx:id=\"adbConnectedDevices\" was not injected: check your FXML file 'Home.fxml'.";
+        assert fastbootDevices != null : "fx:id=\"fastbootConnectedDevices\" was not injected: check your FXML file 'Home.fxml'.";
         assert outputLabel != null : "fx:id=\"outputLabel\" was not injected: check your FXML file 'Home.fxml'.";
 
     }
