@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 public class Reboot {
     private String to;
     private Label outputLabel;
-    private ArrayList<Shell> processList;
+    private ArrayList<Shell> processList = new ArrayList<>();
 
     public Reboot(String to, Label outputLabel) {
         this.outputLabel = outputLabel;
