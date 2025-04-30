@@ -33,37 +33,38 @@ public class FlashGSI {
             "Выбран файл: " + file.getAbsolutePath()));
         new Thread(() -> {
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText("Перезагрузка.."));
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
             var proc1 = new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel);
             processList.add(proc1);
             proc1.start();
 
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText("Очистка system.."));
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Очистка system.."));
             var proc2 = new Shell(List.of("fastboot", "erase", "system"), outputLabel);
             processList.add(proc2);
             proc2.start();
             
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText("Удаление product_a.."));
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Удаление product_a.."));
             var proc3 = new Shell(List.of("fastboot", "delete-logical-partition", "product_a"), outputLabel);
             processList.add(proc3);
             proc3.start();
             
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText("Удаление product_b.."));
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Удаление product_b.."));
             var proc4 = new Shell(List.of("fastboot", "delete-logical-partition", "product_b"), outputLabel);
             processList.add(proc4);
             proc4.start();
 
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText("Прошивка system.."));
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка system.."));
             var proc5 = new Shell(List.of("fastboot", "flash", "system", file.getAbsolutePath()), outputLabel);
             processList.add(proc5);
             proc5.start();
             
             if (isCancelled) return;
-            System.out.println("Прошивка завершена, сбросьте настройки через recovery и перезагрузитесь в систему.");
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n"
+                    + "Прошивка завершена, сбросьте настройки через recovery и перезагрузитесь в систему."));
         }).start();
     }
 
