@@ -31,19 +31,19 @@ public class FlashBoot {
             "Выбран файл: " + file.getAbsolutePath()));
         new Thread(() -> {
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText("Перезагрузка.."));
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
             var proc1 = new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel);  
             processList.add(proc1);
             proc1.start();
             
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText("Прошивка boot.."));
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка boot.."));
             var proc2 = new Shell(List.of("fastboot", "flash", "boot", file.getAbsolutePath()), outputLabel);
             processList.add(proc2);
             proc2.start();
 
             if (isCancelled) return;
-            System.out.println("Готово!");
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Готово!"));
         }).start();
     }
 
