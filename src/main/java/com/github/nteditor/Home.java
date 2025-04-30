@@ -155,8 +155,8 @@ public class Home {
         assert rebootF2S != null : "fx:id=\"rebootF2S\" was not injected: check your FXML file 'Home.fxml'.";
         assert rebootS2F != null : "fx:id=\"rebootS2F\" was not injected: check your FXML file 'Home.fxml'.";
         assert rebootS2R != null : "fx:id=\"rebootS2R\" was not injected: check your FXML file 'Home.fxml'.";
-        assert adbDevices != null : "fx:id=\"adbConnectedDevices\" was not injected: check your FXML file 'Home.fxml'.";
-        assert fastbootDevices != null : "fx:id=\"fastbootConnectedDevices\" was not injected: check your FXML file 'Home.fxml'.";
+        assert adbDevices != null : "fx:id=\"adbDevices\" was not injected: check your FXML file 'Home.fxml'.";
+        assert fastbootDevices != null : "fx:id=\"fastbootDevices\" was not injected: check your FXML file 'Home.fxml'.";
         assert outputLabel != null : "fx:id=\"outputLabel\" was not injected: check your FXML file 'Home.fxml'.";
 
     }
