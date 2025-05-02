@@ -1,33 +1,71 @@
 package com.github.nteditor.flash;
 
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import com.github.nteditor.Shell;
 
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+
 public class FlashBoot {
 
-    public void flash() {
-        var selectFile = new SelectFile();
-        var file = selectFile.getFile();
-        if (selectFile.isCanceled(file)) {
-            System.out.println("1");
-            System.out.println(file);
-            return;
-        }
-        if  (selectFile.getSize(file) > 100) {
-            System.out.println("Файл слишком большой!");
-            return;
-        }
-        new Thread(() -> {
-            Shell shell = new Shell();
-            shell.setCommand(List.of("fastboot", "reboot", "fastboot"));
-            shell.start();
-            shell.setCommand(List.of("fastboot", "flash", "boot", file.getAbsolutePath()));
-            shell.start();
+    private final int MAX_FILE_SIZE = 100; // MB
 
-            System.out.println("0");
-            System.out.println(file);
-            System.out.println(file.getAbsolutePath());
+    private SelectFile selectFile;
+    private File file;
+    private Label outputLabel;
+    private List<Shell> processList = new ArrayList<>();
+    private volatile boolean isCancelled = false;
+
+
+    public FlashBoot(Label outputLabel) {
+        this.outputLabel = outputLabel;
+        this.selectFile = new SelectFile();
+        this.file = selectFile.getFile();
+    }
+
+    private void startFlash() {
+        Platform.runLater(() -> outputLabel.setText("Прошивка Boot\n" +
+            "Выбран файл: " + file.getAbsolutePath()));
+        new Thread(() -> {
+            if (isCancelled) return;
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
+            var proc1 = new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel);  
+            processList.add(proc1);
+            proc1.start();
+            
+            if (isCancelled) return;
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка boot.."));
+            var proc2 = new Shell(List.of("fastboot", "flash", "boot", file.getAbsolutePath()), outputLabel);
+            processList.add(proc2);
+            proc2.start();
+
+            if (isCancelled) return;
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Готово!"));
         }).start();
+    }
+
+    public void flash() {
+        if (selectFile.isCanceled(file)) {
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Выбор файла отменен!"));
+            return;
+        }
+        if  (selectFile.getSize(file) > MAX_FILE_SIZE) {
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком большой!"));
+            return;
+        } else {
+            if (isCancelled) return;
+            startFlash();
+        }
+    }
+
+    public void stop() {
+        isCancelled = true;
+        for (Shell shell : processList) {
+            shell.stop();
+        }
+        processList.clear();
     }
 }

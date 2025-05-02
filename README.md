@@ -1,28 +1,43 @@
 Переписаный [auto-flash-for-rmx3834](https://github.com/NTeditor/auto-flash-for-rmx3834) на Java.
 
 # Запуск
-## Требования
+### Требования
 - **Android Platform Tools** (должно быть добавлено в `PATH`).
 
-## Windows
-1. Распакуйте архив `autoflash-fx-0.0.1-SNAPSHOT.zip`.
+
+### Windows
+1. Распакуйте архив `autoFlashFX-"ВЕРСИЯ".zip`.
 2. Перейдите в папку `bin`.
-3. Запустите файл `autoflash-fx-launcher.bat`.
+3. Запустите файл `autoFlashFX-Launcher.bat`.
 
-## Linux
-Не тестировалось
 
+### Linux
+К сожалению для Linux необходимо вручную [собрать](#сборка) релиз.
+
+После сборки:
+1. Распакуйте архив `autoFlashFX-"ВЕРСИЯ".zip`
+2. Перейдите в папку `bin`.
+3. Запустите файл `autoFlashFX-Launcher`.
+
+
+# Скриншоты
+
+### Windows
+
+![Главный экран](image/home.png)
 
 # Сборка
-## Требования
+### Требования
 - **Java 21** или выше.
 
-## Windows
+
+### Windows
 ```batch
-./mvnw.bat clean javafx:jlink
+.\mvnw.bat clean javafx:jlink
 ```
 
-## Linux
+
+### Linux
 ```bash
 ./mvnw clean javafx:jlink
 ```
