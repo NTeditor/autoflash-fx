@@ -14,13 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 
 public class Home {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
     @FXML
     private Label outputLabel;
 
@@ -52,7 +45,7 @@ public class Home {
     private Button cancel;
 
     @FXML
-    void cancel(ActionEvent event) {
+    void cancel() {
         Shell.stop();
         FlashGSI.setCancelled(true);
         FlashBoot.setCancelled(true);
@@ -60,42 +53,42 @@ public class Home {
     }
 
     @FXML
-    void flashBoot(ActionEvent event) {
+    void flashBoot() {
         new FlashBoot(outputLabel).flash();
     }
 
     @FXML
-    void flashGSI(ActionEvent event) {
+    void flashGSI() {
         new FlashGSI(outputLabel).flash();
     }
 
     @FXML
-    void rebootF2R(ActionEvent event) {
+    void rebootF2R() {
         new Reboot("recovery", outputLabel).rebootF2();
     }
     
     @FXML
-    void rebootF2S(ActionEvent event) {
+    void rebootF2S() {
         new Reboot("system", outputLabel).rebootF2();
     }
 
     @FXML
-    void rebootS2F(ActionEvent event) {
+    void rebootS2F() {
         new Reboot("fastboot", outputLabel).rebootS2();
     }
 
     @FXML
-    void rebootS2R(ActionEvent event) {
+    void rebootS2R() {
         new Reboot("recovery", outputLabel).rebootS2();
     }
 
     @FXML
-    void getADBDevices(ActionEvent event) {
+    void getADBDevices() {
         new Devices(outputLabel).getADBDevices();
     }
     
     @FXML
-    void getFastbootDevices(ActionEvent event) {
+    void getFastbootDevices() {
         new Devices(outputLabel).getFastbootDevices();
     }
 
