@@ -2,14 +2,11 @@ package com.github.nteditor;
 
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import com.github.nteditor.flash.FlashBoot;
 import com.github.nteditor.flash.FlashGSI;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

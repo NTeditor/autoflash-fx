@@ -13,16 +13,14 @@ public class Devices {
 
     public void getADBDevices() {
         Platform.runLater(() -> outputLabel.setText("Устройства в режиме adb:"));
-        new Thread(() -> {
-            new Shell(List.of("adb", "devices"), outputLabel).start();
-        }).start();
+        new Thread(() -> new Shell(List.of("adb", "devices"), outputLabel).start())
+                .start();
     }
 
     public void getFastbootDevices() {
         Platform.runLater(() -> outputLabel.setText("Устройства в режиме fastboot:"));
-        new Thread(() -> {
-            new Shell(List.of("fastboot", "device"), outputLabel).start();
-        }).start();
+        new Thread(() -> new Shell(List.of("fastboot", "device"), outputLabel).start())
+                .start();
     }
 
 }

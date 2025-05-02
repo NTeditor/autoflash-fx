@@ -2,7 +2,6 @@ package com.github.nteditor.flash;
 
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import com.github.nteditor.Shell;
 
@@ -10,8 +9,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 
 public class FlashBoot {
-
-    private final int MAX_FILE_SIZE = 100; // MB
 
     private final SelectFile selectFile;
     private final File file;
@@ -45,6 +42,8 @@ public class FlashBoot {
     }
 
     public void flash() {
+        int MAX_FILE_SIZE = 100; // MB
+
         if (selectFile.isCanceled(file)) {
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Выбор файла отменен!"));
             return;

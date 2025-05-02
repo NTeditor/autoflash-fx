@@ -41,7 +41,6 @@ public class Shell {
             Platform.runLater(() ->
                 outputLabel.setText(outputLabel.getText() + "\nКод ошибки: " + exitCode));
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
             Thread.currentThread().interrupt();
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\nError: " + e.getMessage()));
         }
