@@ -22,34 +22,49 @@ public class FlashGSI {
         this.file = selectFile.getFile();
     }
 
+    private void rebootF2F() {
+        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
+        new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel)
+                .start();
+    }
+
+    private void eraseSystem() {
+        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Очистка system.."));
+        new Shell(List.of("fastboot", "erase", "system"), outputLabel)
+                .start();
+    }
+
+    private void deletePartition(String part) {
+        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Удаление product_a.."));
+        new Shell(List.of("fastboot", "delete-logical-partition", part), outputLabel)
+                .start();
+    }
+
+
+    private void flashSystem() {
+        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка system.."));
+        new Shell(List.of("fastboot", "flash", "system", file.getAbsolutePath()), outputLabel)
+                .start();
+    }
+
     private void startFlash() {
         Platform.runLater(() -> outputLabel.setText("Прошивка GSI\n" +
             "Выбран файл: " + file.getAbsolutePath()));
         new Thread(() -> {
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
-            var proc1 = new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel);
-            proc1.start();
+            rebootF2F();
 
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Очистка system.."));
-            var proc2 = new Shell(List.of("fastboot", "erase", "system"), outputLabel);
-            proc2.start();
+            eraseSystem();
             
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Удаление product_a.."));
-            new Shell(List.of("fastboot", "delete-logical-partition", "product_a"), outputLabel)
-                .start();
-            
-            if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Удаление product_b.."));
-            new Shell(List.of("fastboot", "delete-logical-partition", "product_b"), outputLabel)
-                .start();
+            deletePartition("product_a");
 
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка system.."));
-            new Shell(List.of("fastboot", "flash", "system",file.getAbsolutePath()), outputLabel)
-                .start();
+            deletePartition("product_b");
+
+            if (isCancelled) return;
+            flashSystem();
             
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n"
