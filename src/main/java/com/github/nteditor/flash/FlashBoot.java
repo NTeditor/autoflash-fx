@@ -13,11 +13,10 @@ public class FlashBoot {
 
     private final int MAX_FILE_SIZE = 100; // MB
 
-    private SelectFile selectFile;
-    private File file;
-    private Label outputLabel;
-    private List<Shell> processList = new ArrayList<>();
-    private volatile boolean isCancelled = false;
+    private final SelectFile selectFile;
+    private final File file;
+    private final Label outputLabel;
+    private static volatile boolean isCancelled = false;
 
 
     public FlashBoot(Label outputLabel) {
@@ -32,15 +31,13 @@ public class FlashBoot {
         new Thread(() -> {
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
-            var proc1 = new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel);  
-            processList.add(proc1);
-            proc1.start();
-            
+            new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel)
+                    .start();
+
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка boot.."));
-            var proc2 = new Shell(List.of("fastboot", "flash", "boot", file.getAbsolutePath()), outputLabel);
-            processList.add(proc2);
-            proc2.start();
+            new Shell(List.of("fastboot", "flash", "boot", file.getAbsolutePath()), outputLabel)
+                .start();
 
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Готово!"));
@@ -51,21 +48,17 @@ public class FlashBoot {
         if (selectFile.isCanceled(file)) {
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Выбор файла отменен!"));
             return;
-        }
-        if  (selectFile.getSize(file) > MAX_FILE_SIZE) {
+        } else if (selectFile.getSize(file) > MAX_FILE_SIZE) {
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком большой!"));
             return;
         } else {
-            if (isCancelled) return;
+            if (isCancelled) setCancelled(false);
             startFlash();
         }
     }
 
-    public void stop() {
-        isCancelled = true;
-        for (Shell shell : processList) {
-            shell.stop();
-        }
-        processList.clear();
+    public static void setCancelled(boolean isCancelled) {
+        FlashBoot.isCancelled = isCancelled;
+
     }
 }

@@ -16,11 +16,10 @@ public class FlashGSI {
     private final int MIN_FILE_SIZE = 500; // MB
     private final int MAX_FILE_SIZE = 7168; // MB
 
-    private SelectFile selectFile;
-    private File file;
-    private Label outputLabel;
-    private List<Shell> processList = new ArrayList<>();
-    private volatile boolean isCancelled = false;
+    private final SelectFile selectFile;
+    private final File file;
+    private final Label outputLabel;
+    private static volatile boolean isCancelled = false;
 
     public FlashGSI(Label outputLabel) {
         this.outputLabel = outputLabel;
@@ -35,32 +34,27 @@ public class FlashGSI {
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
             var proc1 = new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel);
-            processList.add(proc1);
             proc1.start();
 
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Очистка system.."));
             var proc2 = new Shell(List.of("fastboot", "erase", "system"), outputLabel);
-            processList.add(proc2);
             proc2.start();
             
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Удаление product_a.."));
-            var proc3 = new Shell(List.of("fastboot", "delete-logical-partition", "product_a"), outputLabel);
-            processList.add(proc3);
-            proc3.start();
+            new Shell(List.of("fastboot", "delete-logical-partition", "product_a"), outputLabel)
+                .start();
             
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Удаление product_b.."));
-            var proc4 = new Shell(List.of("fastboot", "delete-logical-partition", "product_b"), outputLabel);
-            processList.add(proc4);
-            proc4.start();
+            new Shell(List.of("fastboot", "delete-logical-partition", "product_b"), outputLabel)
+                .start();
 
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка system.."));
-            var proc5 = new Shell(List.of("fastboot", "flash", "system", file.getAbsolutePath()), outputLabel);
-            processList.add(proc5);
-            proc5.start();
+            new Shell(List.of("fastboot", "flash", "system",file.getAbsolutePath()), outputLabel)
+                .start();
             
             if (isCancelled) return;
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n"
@@ -79,16 +73,13 @@ public class FlashGSI {
             Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком маленький!"));
             return;
         } else {
-            if (isCancelled) return;
+            if (isCancelled) setCancelled(false);
             startFlash();
         }
     }
 
-    public void stop() {
-        isCancelled = true;
-        for (Shell shell : processList) {
-            shell.stop();
-        }
-        processList.clear();
+    public static void setCancelled(boolean isCancelled) {
+        FlashGSI.isCancelled = isCancelled;
+
     }
 }

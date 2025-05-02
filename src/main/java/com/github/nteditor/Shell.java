@@ -4,15 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.ProcessBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 
 public class Shell {
-    private List<String> command;
-    private Label outputLabel;
-    private Process process;
+    private final List<String> command;
+    private final Label outputLabel;
+    private final static ArrayList<Process> processList = new ArrayList<>();
 
     public Shell(List<String> command, Label outputLabel) {
         this.command = command;
@@ -21,10 +22,11 @@ public class Shell {
 
     private void runCommand(List<String> command) {
         try {
-            process = new ProcessBuilder(command)
+            Process process = new ProcessBuilder(command)
                 .redirectErrorStream(true)
                 .start();
 
+            processList.add(process);
 
             try (var reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String line;
@@ -52,9 +54,11 @@ public class Shell {
         runCommand(command);
     }
 
-    public void stop() {
-        if (process != null && process.isAlive()) {
-            process.destroy();
+    public static void stop() {
+        for (Process process : processList) {
+            if (process != null && process.isAlive()) {
+                process.destroy();
+            }
         }
     }
 

@@ -18,11 +18,6 @@ import javafx.scene.control.MenuItem;
 
 public class Home {
 
-    private List<Shell> runningProcesses = new ArrayList<>();
-    private List<Reboot> runningProcessesReboot = new ArrayList<>();
-    private List<FlashGSI> runningProcessesGSI = new ArrayList<>();
-    private List<FlashBoot> runningProcessesBoot = new ArrayList<>();
-
     @FXML
     private ResourceBundle resources;
 
@@ -61,90 +56,50 @@ public class Home {
 
     @FXML
     void cancel(ActionEvent event) {
-        for (FlashGSI shell : runningProcessesGSI) {
-            shell.stop();
-        }
-        
-        for (FlashBoot shell : runningProcessesBoot) {
-            shell.stop();
-        }
- 
-        for (Reboot shell : runningProcessesReboot) {
-            shell.stop();
-        }
-        
-        for (Shell shell : runningProcesses) {
-            shell.stop();
-        }
-
-        runningProcesses.clear();
-        runningProcessesReboot.clear();
-        runningProcessesGSI.clear();
-        runningProcessesBoot.clear();
+        Shell.stop();
+        FlashGSI.setCancelled(true);
+        FlashBoot.setCancelled(true);
         outputLabel.setText("Все дочернии процессы остановлены.");
     }
 
     @FXML
     void flashBoot(ActionEvent event) {
-        
-        var process = new FlashBoot(outputLabel);
-        runningProcessesBoot.add(process);
-        process.flash();
+        new FlashBoot(outputLabel).flash();
     }
 
     @FXML
     void flashGSI(ActionEvent event) {
-        var process = new FlashGSI(outputLabel);
-        runningProcessesGSI.add(process);
-        process.flash();
+        new FlashGSI(outputLabel).flash();
     }
 
     @FXML
     void rebootF2R(ActionEvent event) {
-        var process = new Reboot("recovery", outputLabel);
-        runningProcessesReboot.add(process);
-        process.rebootF2();
+        new Reboot("recovery", outputLabel).rebootF2();
     }
     
     @FXML
     void rebootF2S(ActionEvent event) {
-        var process = new Reboot("system", outputLabel);
-        runningProcessesReboot.add(process);
-        process.rebootF2();
+        new Reboot("system", outputLabel).rebootF2();
     }
 
     @FXML
     void rebootS2F(ActionEvent event) {
-        var process = new Reboot("fastboot", outputLabel);
-        runningProcessesReboot.add(process);
-        process.rebootS2();
+        new Reboot("fastboot", outputLabel).rebootS2();
     }
 
     @FXML
     void rebootS2R(ActionEvent event) {
-        var process = new Reboot("recovery", outputLabel);
-        runningProcessesReboot.add(process);
-        process.rebootS2();
+        new Reboot("recovery", outputLabel).rebootS2();
     }
 
     @FXML
     void getADBDevices(ActionEvent event) {
-        Platform.runLater(() -> outputLabel.setText("Устройства в режиме adb:"));
-        new Thread(() -> {
-            var process = new Shell(List.of("adb", "devices"), outputLabel);
-            runningProcesses.add(process);
-            process.start();
-        }).start();  
+        new Devices(outputLabel).getADBDevices();
     }
     
     @FXML
     void getFastbootDevices(ActionEvent event) {
-        Platform.runLater(() -> outputLabel.setText("Устройства в режиме fastboot:"));
-        new Thread(() -> {
-            var process = new Shell(List.of("fastboot", "devices"), outputLabel);
-            runningProcesses.add(process);
-            process.start();
-        }).start();
+        new Devices(outputLabel).getFastbootDevices();
     }
 
     @FXML
