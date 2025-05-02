@@ -11,14 +11,18 @@ public class Devices {
         this.outputLabel = outputLabel;
     }
 
+    private void setText(String text) {
+        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + text));
+    }
+
     public void getADBDevices() {
-        Platform.runLater(() -> outputLabel.setText("Устройства в режиме adb:"));
+        setText("Устройства в режиме adb:");
         new Thread(() -> new Shell(List.of("adb", "devices"), outputLabel).start())
                 .start();
     }
 
     public void getFastbootDevices() {
-        Platform.runLater(() -> outputLabel.setText("Устройства в режиме fastboot:"));
+        setText("Устройства в режиме fastboot:");
         new Thread(() -> new Shell(List.of("fastboot", "device"), outputLabel).start())
                 .start();
     }

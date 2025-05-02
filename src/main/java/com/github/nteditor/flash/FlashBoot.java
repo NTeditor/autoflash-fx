@@ -3,8 +3,8 @@ package com.github.nteditor.flash;
 
 import java.io.File;
 import java.util.List;
-import com.github.nteditor.Shell;
 
+import com.github.nteditor.Shell;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 
@@ -22,22 +22,31 @@ public class FlashBoot {
         this.file = selectFile.getFile();
     }
 
+    private void setText(String text, boolean clean) {
+        if (clean) {
+            Platform.runLater(() -> outputLabel.setText(text));
+        } else {
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + text));
+        }
+    }
+
     private void startFlash() {
-        Platform.runLater(() -> outputLabel.setText("Прошивка Boot\n" +
-            "Выбран файл: " + file.getAbsolutePath()));
+        setText("Прошивка Boot\n" +
+            "Выбран файл: " + file.getAbsolutePath(), true);
+
         new Thread(() -> {
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
+            setText("Перезагрузка..", false);
             new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel)
                     .start();
 
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка boot.."));
+            setText("Прошивка boot..", false);
             new Shell(List.of("fastboot", "flash", "boot", file.getAbsolutePath()), outputLabel)
                 .start();
 
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Готово!"));
+            setText("Готово!", false);
         }).start();
     }
 
@@ -45,10 +54,10 @@ public class FlashBoot {
         int MAX_FILE_SIZE = 100; // MB
 
         if (selectFile.isCanceled(file)) {
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Выбор файла отменен!"));
+            setText("Выбор файла отменен!", true);
             return;
         } else if (selectFile.getSize(file) > MAX_FILE_SIZE) {
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком большой!"));
+            setText("Файл слишком большой!", true);
             return;
         } else {
             if (isCancelled) setCancelled(false);
@@ -58,6 +67,5 @@ public class FlashBoot {
 
     public static void setCancelled(boolean isCancelled) {
         FlashBoot.isCancelled = isCancelled;
-
     }
 }

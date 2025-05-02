@@ -22,34 +22,42 @@ public class FlashGSI {
         this.file = selectFile.getFile();
     }
 
+    private void setText(String text, boolean clean) {
+        if (clean) {
+            Platform.runLater(() -> outputLabel.setText(text));
+        } else {
+            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + text));
+        }
+    }
+
     private void rebootF2F() {
-        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Перезагрузка.."));
+        setText("Перезагрузка..", true);
         new Shell(List.of("fastboot", "reboot", "fastboot"), outputLabel)
                 .start();
     }
 
     private void eraseSystem() {
-        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Очистка system.."));
+        setText("Очистка system..", false);
         new Shell(List.of("fastboot", "erase", "system"), outputLabel)
                 .start();
     }
 
     private void deletePartition(String part) {
-        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Удаление product_a.."));
+        setText("Удаление product_a..", false);
         new Shell(List.of("fastboot", "delete-logical-partition", part), outputLabel)
                 .start();
     }
 
 
     private void flashSystem() {
-        Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Прошивка system.."));
+        setText("Прошивка system..", false);
         new Shell(List.of("fastboot", "flash", "system", file.getAbsolutePath()), outputLabel)
                 .start();
     }
 
     private void startFlash() {
-        Platform.runLater(() -> outputLabel.setText("Прошивка GSI\n" +
-            "Выбран файл: " + file.getAbsolutePath()));
+        setText("Прошивка GSI\n" +
+            "Выбран файл: " + file.getAbsolutePath(), false);
         new Thread(() -> {
             if (isCancelled) return;
             rebootF2F();
@@ -67,8 +75,7 @@ public class FlashGSI {
             flashSystem();
             
             if (isCancelled) return;
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n"
-                    + "Прошивка завершена, сбросьте настройки через recovery и перезагрузитесь в систему."));
+            setText("Прошивка завершена, сбросьте настройки через recovery и перезагрузитесь в систему.", false);
         }).start();
     }
 
@@ -77,13 +84,13 @@ public class FlashGSI {
         final int MAX_FILE_SIZE = 7168; // MB
 
         if (selectFile.isCanceled(file)) {
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Выбор файла отменен!"));
+           setText("Выбор файла отменен!", false);
             return;
         } else if (selectFile.getSize(file) > MAX_FILE_SIZE) {
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком большой!"));
+            setText("Файл слишком большой!", false);
             return;
         } else if (selectFile.getSize(file) < MIN_FILE_SIZE) {
-            Platform.runLater(() -> outputLabel.setText(outputLabel.getText() + "\n" + "Файл слишком маленький!"));
+            setText("Файл слишком маленький!", false);
             return;
         } else {
             if (isCancelled) setCancelled(false);

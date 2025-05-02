@@ -1,13 +1,7 @@
 package com.github.nteditor;
 
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import com.github.nteditor.flash.FlashBoot;
 import com.github.nteditor.flash.FlashGSI;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,9 +34,6 @@ public class Home {
 
     @FXML
     private MenuItem adbDevices;
-
-    @FXML
-    private Button cancel;
 
     @FXML
     void cancel() {
@@ -103,7 +94,6 @@ public class Home {
         assert adbDevices != null : "fx:id=\"adbDevices\" was not injected: check your FXML file 'Home.fxml'.";
         assert fastbootDevices != null : "fx:id=\"fastbootDevices\" was not injected: check your FXML file 'Home.fxml'.";
         assert outputLabel != null : "fx:id=\"outputLabel\" was not injected: check your FXML file 'Home.fxml'.";
-
     }
 
 }
